@@ -2,12 +2,19 @@ let friends = [];
 
 function addFriends() {
     let nameInput = document.getElementById('friend');
-    let name = nameInput.value;
+    let name = nameInput.value.trim(); // Elimino los espacios al principio y al final
 
     // Valido el nombre antes de agregarlo
     if (!isInputNotEmpty(name) || hasNumbers(name)) {
         nameInput.value = ""; // Limpio el campo
         return; // No continúo si la validación falla
+    }
+
+    // Valido que el nombre no se haya ingresado anteriormente
+    if (isDuplicate(name)) {
+        alert("Este nombre ya está en la lista.");
+        nameInput.value = ""; // Limpio el campo
+        return;
     }
 
     // Agrego el nombre a la lista si es válido
@@ -36,6 +43,12 @@ function hasNumbers(input) {
         return true;
     }
     return false;
+}
+
+// Verifico si el nombre está duplicado
+function isDuplicate(name) {
+    // Verifico si el nombre ya existe en la lista (sin importar mayúsculas/minúsculas)
+    return friends.includes(name.toLowerCase());
 }
 
 // Actualizo la lista de amigos en la página
